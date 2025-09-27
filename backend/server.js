@@ -17,6 +17,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoute)
+app.use("/api/coupons", couponsRoute)
 
 // Connect to DB first, then start server
 connectDB().then(() => {
