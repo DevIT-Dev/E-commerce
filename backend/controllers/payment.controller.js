@@ -1,4 +1,4 @@
-import Coupon from "../models/coupon.model";
+import Coupon from "../models/coupon.model.js";
 import { stripe } from "../lib/stripe.js";
 import Order from "../models/order.model.js";
 import dotenv from "dotenv";
@@ -86,7 +86,6 @@ async function createStripeCoupon(discountPercentage) {
   return coupon.id;
 }
 
-
 // function to create a new coupon
 async function createNewCoupon(userId) {
   const newCouopon = new Coupon({
@@ -96,7 +95,7 @@ async function createNewCoupon(userId) {
   });
 
   await newCouopon.save();
-  return newCouopon
+  return newCouopon;
 }
 
 export const checkoutSuccess = async (req, res) => {
@@ -134,11 +133,9 @@ export const checkoutSuccess = async (req, res) => {
     }
   } catch (error) {
     console.error("Error processing successful checkout:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error processing successful checkout",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error processing successful checkout",
+      error: error.message,
+    });
   }
 };
