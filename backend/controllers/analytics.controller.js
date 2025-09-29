@@ -10,8 +10,19 @@ export const getAnalyticsData = async() => {
       {
          $group: {
             _id: null, // groups all documents together
-            totalSales
+            totalSales: {$sum:1},
+            totalRevenue: {$sum: "totalAmount"}
          }
       }
    ])
+
+   const {totalSales, totalRevenue} = salesData[0] || {totalSales:0, totalRevenue:0};
+
+   return {
+      users: totalUsers,
+      Products: totalProducts,
+      totalSales,
+      totalRevenue
+
+   }
 }
