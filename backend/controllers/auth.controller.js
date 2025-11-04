@@ -45,6 +45,7 @@ const setCookies = (res, accessToken, refreshToken) => {
   });
 };
 
+
 // SIGNUP LOGIC
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
