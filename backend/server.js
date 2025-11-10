@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
 import cartRoute from "./routes/cart.route.js";
@@ -14,7 +15,15 @@ const app = express();
 dotenv.config();
 
 const PORT = process.env.PORT;
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+
+// Enable CORS with credentials
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your frontend URL
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 

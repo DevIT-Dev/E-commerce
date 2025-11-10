@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, Upload, Loader } from "lucide-react";
+import { useProductStore } from "../stores/useProductStore";
+import toast from "react-hot-toast";
 
 const categories = [
+  "watches",
   "jeans",
-  "t-shirt",
-  "shoe",
+  "t-shirts",
+  "shoes",
   "glasses",
-  "jacket",
-  "suit",
-  "bag",
+  "jackets",
+  "suits",
+  "bags",
 ];
 
 const CreateProductForm = () => {
@@ -21,10 +24,37 @@ const CreateProductForm = () => {
     image: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(newProduct);
+  const { createProduct, loading } = useProductStore();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProduct({ ...newProduct, image: reader.result });
+      };
+
+      reader.readAsDataURL(file); //base64 format
+    }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await createProduct(newProduct);
+      setNewProduct({
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        image: "",
+      });
+      toast.success("Product created successfully");
+    } catch (error) {
+      console.log("error creating product");
+    }
+  };
+
   return (
     <motion.div
       className="bg-gray-800 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto"
@@ -125,19 +155,40 @@ const CreateProductForm = () => {
         </div>
 
         <div className="mt-5 flex items-center">
-          <input type="file" id="image" className="sr-only" accept="image/*" />
+          <input
+            type="file"
+            id="image"
+            className="sr-only"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
           <label
             htmlFor="image"
             className="cursor-pointer bg-gray-700 py-2 px-3 border border-gray-600 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-500"
           >
-            <Upload className="h-5 w-5 inline-block mr-2"/>Upload Image
+            <Upload className="h-5 w-5 inline-block mr-2" />
+            Upload Image
           </label>
           {newProduct.image && (
-            <span className="ml-3 text-sm text-gray-400">
-              {newProduct.image}
-            </span>
+            <span className="ml-3 text-sm text-gray-400">Image Uploaded</span>
           )}
         </div>
+
+        <button
+          type="submit"
+          className="w-full my-5 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Loader className="mr-2 h-5 w-5 animate-spin" aria-hidden />
+            </>
+          ) : (
+            <>
+              <PlusCircle className="mr-2 size-5" /> Create Product
+            </>
+          )}
+        </button>
       </form>
     </motion.div>
   );

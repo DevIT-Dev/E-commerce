@@ -16,8 +16,15 @@ router.get("/", protectRoute, adminRoute, getAllProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/category/:category", getProductsByCategory);
 router.get("/recommendations", getrecommendedProducts);
-router.post("/", protectRoute, adminRoute, toggleFeaturedProduct);
-router.patch("/:id", protectRoute, adminRoute, createProduct);
+// Create a new product (admin only)
+router.post("/", protectRoute, adminRoute, createProduct);
+// Toggle featured status for a product (admin only)
+router.post(
+  "/:id/toggle-featured",
+  protectRoute,
+  adminRoute,
+  toggleFeaturedProduct
+);
 router.delete("/:id", protectRoute, adminRoute, deleteProduct);
 
 export default router;

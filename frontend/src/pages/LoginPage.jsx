@@ -7,14 +7,13 @@ import { motion } from "framer-motion";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loading = false;
+  const { loading } = useUserStore();
 
   const { login } = useUserStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-    login(email, password);
+    await login({ email, password });
   };
 
   return (
