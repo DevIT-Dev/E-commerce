@@ -1,4 +1,4 @@
-import CategoryItem from "../componenets/CategoryItem";
+import CategoryItem from "../components/CategoryItem";
 
 const categories = [
   { href: "/watches", name: "watches", imageUrl: "watch.jpg" },

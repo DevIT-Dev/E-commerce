@@ -1,9 +1,9 @@
 import { BarChart, PlusCircle, ShoppingBasket } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import CreateProductForm from "../componenets/CreateProductForm";
-import AnalyticsTab from "../componenets/AnalyticsTab";
-import ProductsList from "../componenets/ProductsList";
+import CreateProductForm from "../components/CreateProductForm";
+import AnalyticsTab from "../components/AnalyticsTab";
+import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";
 
 const tabs = [
